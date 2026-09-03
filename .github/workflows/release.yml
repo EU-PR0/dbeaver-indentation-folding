@@ -1,0 +1,142 @@
+name: Release p2 Update Site
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: p2-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Resolve release version
+        id: version
+        shell: bash
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          python3 scripts/check_release_version.py "$VERSION"
+
+      - name: Build real p2 repository
+        run: mvn -B -U clean verify
+
+      - name: Validate p2 output
+        shell: bash
+        run: |
+          test -f repository/target/repository/content.jar
+          test -f repository/target/repository/artifacts.jar
+          test -d repository/target/repository/features
+          test -d repository/target/repository/plugins
+
+      - name: Prepare persistent p2-site branch
+        shell: bash
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          rm -rf site-work
+
+          if git ls-remote --exit-code --heads origin p2-site >/dev/null 2>&1; then
+            git fetch origin p2-site:p2-site
+            git worktree add site-work p2-site
+          else
+            git worktree add --detach site-work "$GITHUB_SHA"
+            (
+              cd site-work
+              git checkout --orphan p2-site
+              git rm -rf . >/dev/null 2>&1 || true
+            )
+          fi
+
+          rm -rf "site-work/releases/$VERSION"
+          mkdir -p "site-work/releases/$VERSION"
+          cp -a repository/target/repository/. "site-work/releases/$VERSION/"
+
+          python3 scripts/update_composite.py site-work \
+            --repo "$GITHUB_REPOSITORY" \
+            --owner "$GITHUB_REPOSITORY_OWNER"
+
+          touch site-work/.nojekyll
+
+      - name: Commit p2 repository history
+        shell: bash
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          cd site-work
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Publish p2 release $VERSION" || true
+          git push origin HEAD:p2-site
+
+      - name: Create ZIP update site
+        shell: bash
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          cd repository/target/repository
+          zip -qr "../../../dbeaver-indentation-folding-update-site-$VERSION.zip" .
+
+      - name: Create or update GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            gh release upload "v$VERSION" \
+              "dbeaver-indentation-folding-update-site-$VERSION.zip" \
+              --clobber
+          else
+            gh release create "v$VERSION" \
+              "dbeaver-indentation-folding-update-site-$VERSION.zip" \
+              --title "DBeaver Indentation Folding $VERSION" \
+              --generate-notes
+          fi
+
+      - name: Prepare Pages artifact
+        shell: bash
+        run: |
+          rm -rf pages-output
+          mkdir pages-output
+          rsync -a --exclude='.git' site-work/ pages-output/
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: pages-output
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

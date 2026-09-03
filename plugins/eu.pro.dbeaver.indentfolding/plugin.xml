@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+    <extension point="org.jkiss.dbeaver.sql.editorAddIns">
+        <addIn
+            id="eu.pro.dbeaver.indentfolding.addin"
+            class="eu.pro.dbeaver.indentfolding.IndentationFoldingAddIn"
+            priority="1000"/>
+    </extension>
+
+    <extension point="org.eclipse.ui.preferencePages">
+        <page
+            id="eu.pro.dbeaver.indentfolding.preferences"
+            category="org.jkiss.dbeaver.preferences.main.sqleditor"
+            name="Indentation Folding"
+            class="eu.pro.dbeaver.indentfolding.IndentationFoldingPreferencePage"/>
+    </extension>
+</plugin>

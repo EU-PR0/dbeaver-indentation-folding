@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="eu.pro.dbeaver.indentfolding.feature" version="0.0.0">
+      <category name="dbeaver-indent-folding"/>
+   </feature>
+
+   <category-def name="dbeaver-indent-folding" label="DBeaver SQL Editor Extensions">
+      <description>
+         Independent third-party extensions for the DBeaver SQL editor.
+      </description>
+   </category-def>
+</site>
