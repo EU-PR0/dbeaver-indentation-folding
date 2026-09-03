@@ -11,7 +11,7 @@
 
     <name>DBeaver Indentation Folding</name>
     <description>Indentation-based folding for the DBeaver SQL editor</description>
-    <url>https://github.com/YOUR-GITHUB-USER/dbeaver-indentation-folding</url>
+    <url>https://github.com/eu-pr0/dbeaver-indentation-folding</url>
 
     <licenses>
         <license>
