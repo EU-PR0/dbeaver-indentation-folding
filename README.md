@@ -20,7 +20,7 @@ After this repository is published with GitHub Pages, use the repository's Pages
 
 Example:
 
-`https://YOUR-GITHUB-USER.github.io/dbeaver-indentation-folding/`
+`https://EU-PR0.github.io/dbeaver-indentation-folding/`
 
 Then select **DBeaver SQL Indentation Folding**, finish the wizard, and restart DBeaver.
 
