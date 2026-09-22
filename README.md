@@ -30,7 +30,7 @@ A third-party Eclipse/DBeaver plug-in that adds indentation-based and explicit r
 #endregion
 ```
 
-The `#region` / `#endregion` boundaries are used exactly as explicit folding boundaries and do not depend on indentation.
+The `#region` / `#endregion` boundaries are used exactly as explicit folding boundaries and do not depend on indentation. When a region is collapsed, the opening `#region` line remains visible as the folded line and the closing `#endregion` line remains visible below it. Blank lines after `#endregion` are outside that region.
 
 ## Install / update
 
@@ -83,6 +83,7 @@ The GitHub Pages site is a p2 **composite repository**:
     ├── 1.0.1/
     ├── 1.0.2/
     ├── 1.1.0/
+    ├── 1.1.1/
     └── ...
 ```
 

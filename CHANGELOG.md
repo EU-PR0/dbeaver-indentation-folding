@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.1
+
+- Fixed explicit region boundaries so the closing `#endregion` line is never part of its own collapsed range.
+- Fixed the case where `#endregion` is indented deeper than `#region`: a competing indentation fold is no longer created on the same marker line.
+- Blank lines after `#endregion` are no longer swallowed when collapsing that region.
+- Suppressed indentation folding anchors on explicit `#region` / `#endregion` marker lines while region folding is enabled.
+- Added dependency-free CI regression checks for region boundaries, deeper-indented closing markers, nested regions, and case-insensitive markers.
+
 ## 1.1.0
 
 - Added folding to nested database object **Source** editors, including MySQL procedures and functions.

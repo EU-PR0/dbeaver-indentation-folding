@@ -25,5 +25,18 @@ jobs:
           java-version: '21'
           cache: maven
 
+      - name: Region folding regression checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf target/region-fold-regression
+          mkdir -p target/region-fold-regression
+          javac -d target/region-fold-regression \
+            plugins/eu.pro.dbeaver.indentfolding/src/eu/pro/dbeaver/indentfolding/IndentationFoldParser.java \
+            plugins/eu.pro.dbeaver.indentfolding/src/eu/pro/dbeaver/indentfolding/RegionFoldParser.java \
+            plugins/eu.pro.dbeaver.indentfolding/src/eu/pro/dbeaver/indentfolding/FoldingRegionCalculator.java \
+            scripts/RegionFoldingRegressionCheck.java
+          java -cp target/region-fold-regression eu.pro.dbeaver.indentfolding.RegionFoldingRegressionCheck
+
       - name: Build and verify
         run: mvn -B -U clean verify

@@ -5,12 +5,15 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Combines indentation-based and explicit-region folding.
  *
  * Explicit regions have priority when an indentation fold would cross a
- * region boundary. Properly nested ranges from both mechanisms are retained.
+ * region boundary. Indentation folds anchored on a #region or #endregion
+ * marker line are suppressed so an indentation fold cannot compete with the
+ * explicit region fold or accidentally swallow the closing marker/blank lines.
  */
 final class FoldingRegionCalculator {
     private record RegionKey(int offset, int length) {
@@ -25,9 +28,12 @@ final class FoldingRegionCalculator {
         boolean indentationEnabled,
         boolean regionsEnabled
     ) {
-        List<IndentationFoldParser.FoldRegion> explicitRegions = regionsEnabled
+        RegionFoldParser.ParseResult parsedRegions = regionsEnabled
             ? RegionFoldParser.parse(text)
-            : List.of();
+            : new RegionFoldParser.ParseResult(List.of(), Set.of());
+
+        List<IndentationFoldParser.FoldRegion> explicitRegions = parsedRegions.regions();
+        Set<Integer> markerLineOffsets = parsedRegions.markerLineOffsets();
 
         List<IndentationFoldParser.FoldRegion> indentationRegions = indentationEnabled
             ? IndentationFoldParser.parse(text, tabWidth)
@@ -40,6 +46,15 @@ final class FoldingRegionCalculator {
         }
 
         for (IndentationFoldParser.FoldRegion region : indentationRegions) {
+            // A marker line is owned by explicit region folding. In particular,
+            // when #endregion is indented deeper than #region, indentation
+            // folding otherwise creates a second region starting at #region
+            // and extending to the next dedent. Collapsing that competing fold
+            // hides #endregion and the blank lines after it.
+            if (regionsEnabled && markerLineOffsets.contains(region.offset())) {
+                continue;
+            }
+
             boolean crossesExplicitRegion = false;
             for (IndentationFoldParser.FoldRegion explicit : explicitRegions) {
                 if (crosses(region, explicit)) {

@@ -3,7 +3,9 @@ package eu.pro.dbeaver.indentfolding;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Parses explicit MySQL-style region comments:
@@ -14,10 +16,23 @@ import java.util.List;
  *
  * Markers are case-insensitive, may be indented, and may be nested.
  * Only matched pairs produce a folding region.
+ *
+ * The folding range deliberately ends at the beginning of the #endregion
+ * line. This keeps the closing marker visible after the region is collapsed.
  */
 final class RegionFoldParser {
     private static final String REGION_START = "#region";
     private static final String REGION_END = "#endregion";
+
+    record ParseResult(
+        List<IndentationFoldParser.FoldRegion> regions,
+        Set<Integer> markerLineOffsets
+    ) {
+        ParseResult {
+            regions = List.copyOf(regions);
+            markerLineOffsets = Set.copyOf(markerLineOffsets);
+        }
+    }
 
     private record OpenRegion(int offset) {
     }
@@ -25,8 +40,9 @@ final class RegionFoldParser {
     private RegionFoldParser() {
     }
 
-    static List<IndentationFoldParser.FoldRegion> parse(String text) {
+    static ParseResult parse(String text) {
         List<IndentationFoldParser.FoldRegion> regions = new ArrayList<>();
+        Set<Integer> markerLineOffsets = new LinkedHashSet<>();
         Deque<OpenRegion> stack = new ArrayDeque<>();
 
         int offset = 0;
@@ -52,23 +68,25 @@ final class RegionFoldParser {
                 }
             }
 
-            int lineEnd = offset;
             String line = text.substring(lineStart, contentEnd).strip();
 
             if (isMarker(line, REGION_END)) {
+                markerLineOffsets.add(lineStart);
+
                 OpenRegion open = stack.pollFirst();
-                if (open != null && lineEnd > open.offset()) {
+                if (open != null && lineStart > open.offset()) {
                     regions.add(new IndentationFoldParser.FoldRegion(
                         open.offset(),
-                        lineEnd - open.offset()
+                        lineStart - open.offset()
                     ));
                 }
             } else if (isMarker(line, REGION_START)) {
+                markerLineOffsets.add(lineStart);
                 stack.addFirst(new OpenRegion(lineStart));
             }
         }
 
-        return regions;
+        return new ParseResult(regions, markerLineOffsets);
     }
 
     private static boolean isMarker(String line, String marker) {
