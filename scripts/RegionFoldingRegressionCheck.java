@@ -55,6 +55,7 @@ public final class RegionFoldingRegressionCheck {
 
         int firstStart = sql.indexOf("#region PREPARE VARIABLES");
         int firstEndMarker = sql.indexOf("#endregion");
+        int firstEndLineStart = lineStart(sql, firstEndMarker);
         int nextStart = sql.indexOf("#region NEXT BLOCK");
 
         List<IndentationFoldParser.FoldRegion> regions =
@@ -68,7 +69,7 @@ public final class RegionFoldingRegressionCheck {
 
         IndentationFoldParser.FoldRegion region = anchored.getFirst();
         assertEquals(
-            firstEndMarker - firstStart,
+            firstEndLineStart - firstStart,
             region.length(),
             "deeper #endregion must not extend the fold to the next dedent"
         );
@@ -90,8 +91,8 @@ public final class RegionFoldingRegressionCheck {
 
         int outerStart = sql.indexOf("#region OUTER");
         int innerStart = sql.indexOf("#region INNER");
-        int innerEnd = sql.indexOf("#endregion");
-        int outerEnd = sql.lastIndexOf("#endregion");
+        int innerEnd = lineStart(sql, sql.indexOf("#endregion"));
+        int outerEnd = lineStart(sql, sql.lastIndexOf("#endregion"));
 
         List<IndentationFoldParser.FoldRegion> regions =
             FoldingRegionCalculator.parse(sql, 4, true, true);
@@ -119,6 +120,11 @@ public final class RegionFoldingRegressionCheck {
         );
 
         assertEquals(end - start, region.length(), "case-insensitive markers must still fold");
+    }
+
+    private static int lineStart(String text, int offset) {
+        int previousNewline = text.lastIndexOf('\n', Math.max(0, offset - 1));
+        return previousNewline < 0 ? 0 : previousNewline + 1;
     }
 
     private static IndentationFoldParser.FoldRegion onlyRegionStartingAt(
