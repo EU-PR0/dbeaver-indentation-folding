@@ -6,11 +6,11 @@
 
     <groupId>eu.pro.dbeaver</groupId>
     <artifactId>dbeaver-indentation-folding-parent</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>DBeaver Indentation Folding</name>
-    <description>Indentation-based folding for the DBeaver SQL editor</description>
+    <description>Indentation and explicit region folding for DBeaver SQL editors</description>
     <url>https://github.com/eu-pr0/dbeaver-indentation-folding</url>
 
     <licenses>

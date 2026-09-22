@@ -8,11 +8,15 @@
             priority="1000"/>
     </extension>
 
+    <extension point="org.eclipse.ui.startup">
+        <startup class="eu.pro.dbeaver.indentfolding.IndentationFoldingStartup"/>
+    </extension>
+
     <extension point="org.eclipse.ui.preferencePages">
         <page
             id="eu.pro.dbeaver.indentfolding.preferences"
             category="org.jkiss.dbeaver.preferences.main.sqleditor"
-            name="Indentation Folding"
+            name="SQL Folding"
             class="eu.pro.dbeaver.indentfolding.IndentationFoldingPreferencePage"/>
     </extension>
 </plugin>

@@ -11,8 +11,7 @@ public final class IndentationFoldingPreferencePage extends FieldEditorPreferenc
         super(GRID);
         setPreferenceStore(IndentationFoldingPlugin.getDefault().getPreferenceStore());
         setDescription(
-            "Create SQL folding regions from indentation levels. " +
-            "Blank lines are ignored when detecting block boundaries."
+            "Create SQL folding regions from indentation and explicit #region / #endregion markers."
         );
     }
 
@@ -38,8 +37,20 @@ public final class IndentationFoldingPreferencePage extends FieldEditorPreferenc
         addField(tabWidth);
 
         addField(new BooleanFieldEditor(
+            IndentationFoldingPlugin.PREF_REGIONS_ENABLED,
+            "Enable #region / #endregion folding",
+            getFieldEditorParent()
+        ));
+
+        addField(new BooleanFieldEditor(
+            IndentationFoldingPlugin.PREF_SOURCE_VIEWERS_ENABLED,
+            "Enable folding in object Source editors (procedures, functions, views, triggers, ...)",
+            getFieldEditorParent()
+        ));
+
+        addField(new BooleanFieldEditor(
             IndentationFoldingPlugin.PREF_DISABLE_BUILTIN,
-            "Temporarily disable DBeaver SQL-structure folding while indentation folding is active",
+            "Temporarily disable DBeaver SQL-structure folding while plug-in folding is active",
             getFieldEditorParent()
         ));
     }
@@ -49,12 +60,8 @@ public final class IndentationFoldingPreferencePage extends FieldEditorPreferenc
         boolean ok = super.performOk();
         if (ok) {
             IndentationFoldingAddIn.refreshAll();
+            SourceViewerFoldingManager.refreshAll();
         }
         return ok;
-    }
-
-    @Override
-    protected void performDefaults() {
-        super.performDefaults();
     }
 }

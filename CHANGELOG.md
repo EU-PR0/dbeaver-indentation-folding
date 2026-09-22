@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.1.0
+
+- Added folding to nested database object **Source** editors, including MySQL procedures and functions.
+- The Source-editor integration also works for other DBeaver object Source pages based on `SQLSourceViewer` (for example views and triggers).
+- Added explicit, indentation-independent `#region ... #endregion` folding.
+- Region markers are case-insensitive, may be indented, may contain a name, and may be nested.
+- Added a preference to enable/disable region folding independently from indentation folding.
+- Added a preference to enable/disable folding in object Source editors.
+- Explicit regions take priority over indentation folds when the two ranges would cross, preventing invalid overlapping projection regions.
+- Refactored the folding engine so regular SQL editors and object Source editors share the same annotation/session logic.
+- Kept compatibility with DBeaver Community 26.1.5, 26.2.0, and 26.2.1.
+
 ## 1.0.2
 
 - Added verified compatibility with DBeaver Community 26.2.1 (released 2026-09-21).
