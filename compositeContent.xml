@@ -4,11 +4,12 @@
     type='org.eclipse.equinox.internal.p2.metadata.repository.CompositeMetadataRepository'
     version='1.0.0'>
   <properties size='3'>
-    <property name='p2.timestamp' value='1788442864643'/>
+    <property name='p2.timestamp' value='1790072874598'/>
     <property name='p2.compressed' value='true'/>
     <property name='p2.atomic.composite.loading' value='true'/>
   </properties>
-  <children size='1'>
+  <children size='2'>
     <child location="releases/1.0.1/"/>
+    <child location="releases/1.0.2/"/>
   </children>
 </repository>
