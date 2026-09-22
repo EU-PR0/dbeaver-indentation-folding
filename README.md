@@ -7,7 +7,7 @@ A third-party Eclipse/DBeaver plug-in that adds indentation-based and explicit r
 - Folding regions derived from indentation levels.
 - Explicit `#region` / `#endregion` folding independent of indentation.
 - Nested explicit regions.
-- Region names, for example `#region ERROR HANDLER`.
+- Region names, for example `#region some name`.
 - Folding in regular SQL editors.
 - Folding in database object **Source** editors such as procedures, functions, views and triggers.
 - Spaces and tabs are supported.
@@ -20,12 +20,12 @@ A third-party Eclipse/DBeaver plug-in that adds indentation-based and explicit r
 ### Region example
 
 ```sql
-#region VARIABLES
-    DECLARE var_dt_now DATETIME DEFAULT NOW();
+#region first one
+    DECLARE var_now DATETIME DEFAULT NOW();
 
-    #region WORK VARIABLES
-        DECLARE var_id_stage INT;
-        DECLARE var_stage_dt_end DATETIME;
+    #region second one
+        DECLARE var_id INT;
+        DECLARE var_dt DATETIME;
     #endregion
 #endregion
 ```
