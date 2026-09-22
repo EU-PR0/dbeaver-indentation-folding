@@ -2,13 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: DBeaver SQL Indentation Folding
 Bundle-SymbolicName: eu.pro.dbeaver.indentfolding;singleton:=true
-Bundle-Version: 1.0.1.qualifier
+Bundle-Version: 1.0.2.qualifier
 Bundle-Vendor: EU PRO
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Activator: eu.pro.dbeaver.indentfolding.IndentationFoldingPlugin
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.jkiss.dbeaver.model;bundle-version="[2.0.45,2.0.47)",
- org.jkiss.dbeaver.ui.editors.sql;bundle-version="[1.0.185,1.0.187)",
+Require-Bundle: org.jkiss.dbeaver.model;bundle-version="[2.0.45,2.0.48)",
+ org.jkiss.dbeaver.ui.editors.sql;bundle-version="[1.0.185,1.0.188)",
  org.eclipse.ui,
  org.eclipse.jface,
  org.eclipse.swt,
