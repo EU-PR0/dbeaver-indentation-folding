@@ -89,8 +89,8 @@ public final class RegionFoldingRegressionCheck {
             #endregion
             """;
 
-        int outerStart = sql.indexOf("#region OUTER");
-        int innerStart = sql.indexOf("#region INNER");
+        int outerStart = lineStart(sql, sql.indexOf("#region OUTER"));
+        int innerStart = lineStart(sql, sql.indexOf("#region INNER"));
         int innerEnd = lineStart(sql, sql.indexOf("#endregion"));
         int outerEnd = lineStart(sql, sql.lastIndexOf("#endregion"));
 
