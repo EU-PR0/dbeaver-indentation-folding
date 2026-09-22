@@ -2,45 +2,37 @@
 
 The public site is intentionally append-only at the release-directory level.
 
-## First public release
+## Normal release
 
-1. Create a public GitHub repository, recommended name:
-   `dbeaver-indentation-folding`
-2. Push this source tree to `main`.
-3. In `Settings -> Pages`, set **Source** to **GitHub Actions**.
-4. Replace `YOUR-GITHUB-USER` in `pom.xml` and README when convenient.
-5. Push tag matching the project version:
+For each verified DBeaver compatibility update:
 
-```bash
-git tag v1.0.1
-git push origin v1.0.1
-```
+1. Verify the DBeaver bundle versions and the APIs used by the plug-in.
+2. Bump the root/module parent version, bundle version and feature version.
+3. Set `RELEASE_VERSION` to the same semantic version.
+4. Update `CHANGELOG.md` and the compatibility list.
+5. Push the release commit to `main`.
 
-The workflow creates the `p2-site` branch automatically and deploys it to GitHub Pages.
+A push to `main` that changes `RELEASE_VERSION` automatically starts the release workflow.
 
-## Next release
+The workflow:
 
-For 1.0.2 update:
+- validates all project versions;
+- builds with Tycho;
+- generates a real p2 repository;
+- preserves previous releases in the `p2-site` branch;
+- regenerates the composite repository;
+- creates the matching Git tag/GitHub Release if needed;
+- publishes GitHub Pages.
 
-- root and module parent versions from `1.0.1-SNAPSHOT` to `1.0.2-SNAPSHOT`;
-- `Bundle-Version` to `1.0.2.qualifier`;
-- feature version to `1.0.2.qualifier`;
-- changelog.
+Tag-based releases (`vX.Y.Z`) and manual `workflow_dispatch` releases are retained for recovery/re-publishing.
 
-Then:
+## Published layout
 
-```bash
-mvn -B clean verify
-git commit -am "Prepare 1.0.2"
-git tag v1.0.2
-git push origin main v1.0.2
-```
+Each version is immutable at its own path:
 
-The new child repository is published to:
+`releases/X.Y.Z/`
 
-`releases/1.0.2/`
-
-and the root composite repository keeps both 1.0.1 and 1.0.2.
+The root composite repository keeps all published compatible versions so Eclipse p2/DBeaver can select the newest version whose OSGi requirements match the installed DBeaver bundles.
 
 ## Compatibility policy
 
@@ -48,9 +40,10 @@ Do not widen DBeaver `Require-Bundle` ranges merely to make a build pass.
 
 For every new DBeaver bundle line:
 
-1. verify the APIs used by the plug-in;
-2. test install/update in DBeaver;
-3. widen only the verified upper range;
-4. release a new plug-in version.
+1. verify the exact DBeaver stable release;
+2. verify the bundle versions used in `MANIFEST.MF`;
+3. verify the SQL Editor add-in interface and every DBeaver API directly used by the plug-in;
+4. widen only the verified upper bounds;
+5. build and publish a new plug-in version.
 
 This prevents a DBeaver update from silently loading the plug-in against an untested incompatible internal API.
