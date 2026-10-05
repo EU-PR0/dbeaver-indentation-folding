@@ -67,6 +67,7 @@ The current release line is intentionally constrained to DBeaver bundle API vers
 - DBeaver Community 26.1.5
 - DBeaver Community 26.2.0
 - DBeaver Community 26.2.1
+- DBeaver Community 26.2.2
 
 The CI build resolves against DBeaver's current public p2 repository. If DBeaver changes an internal API outside the allowed bundle ranges, CI is expected to fail until compatibility is reviewed and the ranges are intentionally updated.
 
@@ -84,6 +85,7 @@ The GitHub Pages site is a p2 **composite repository**:
     ├── 1.0.2/
     ├── 1.1.0/
     ├── 1.1.1/
+    ├── 1.1.2/
     └── ...
 ```
 
@@ -111,7 +113,7 @@ repository/target/repository/
 
 ## Release
 
-1. Update project versions (for example `1.1.1-SNAPSHOT` / `1.1.1.qualifier`).
+1. Update project versions (for example `1.1.3-SNAPSHOT` / `1.1.3.qualifier`).
 2. Set `RELEASE_VERSION` to the same semantic version.
 3. Commit and push to `main`. The release workflow builds and publishes that version automatically.
 

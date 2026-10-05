@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.2
+
+- Added verified compatibility with DBeaver Community 26.2.2 (released 2026-10-04).
+- Extended `org.jkiss.dbeaver.model` compatibility through 2.0.48.x.
+- Extended `org.jkiss.dbeaver.ui.editors.sql` compatibility through 1.0.188.x.
+- Verified that `SQLEditorBase`, `SQLEditorAddIn`, `SQLSourceViewer`, `DBWorkbench`, and `DBPPreferenceStore` APIs used by the plug-in remain compatible in DBeaver 26.2.2.
+- Verified that the `org.jkiss.dbeaver.sql.editorAddIns` extension point and `SQLEditor.Folding.enabled` preference remain available.
+
 ## 1.1.1
 
 - Fixed explicit region boundaries so the closing `#endregion` line is never part of its own collapsed range.
