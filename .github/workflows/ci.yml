@@ -38,5 +38,8 @@ jobs:
             scripts/RegionFoldingRegressionCheck.java
           java -cp target/region-fold-regression eu.pro.dbeaver.indentfolding.RegionFoldingRegressionCheck
 
+      - name: Validate automatic compatibility selector
+        run: python3 scripts/check_selector_feature.py
+
       - name: Build and verify
         run: mvn -B -U clean verify

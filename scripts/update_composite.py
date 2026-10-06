@@ -6,6 +6,7 @@ import html
 import json
 import re
 import time
+import shutil
 from pathlib import Path
 from xml.sax.saxutils import quoteattr
 
@@ -96,6 +97,12 @@ code{{background:#f3f3f3;padding:2px 6px;border-radius:4px}}
 <p>DBeaver: <code>Help -&gt; Install New Software...</code></p>
 </div>
 <p>Latest published release: <strong>{html.escape(latest)}</strong></p>
+<div class="box">
+<strong>Automatic compatibility</strong>
+<p>In DBeaver, select <code>DBeaver SQL Indentation Folding (Automatic Compatibility)</code>. Eclipse p2 resolves the newest implementation compatible with the DBeaver OSGi bundles installed in your application.</p>
+<p>You do not need to select an implementation version manually.</p>
+<p><a href="compatibility.json">Machine-readable compatibility matrix</a></p>
+</div>
 <h2>Published versions</h2>
 <ul>{rows}</ul>
 <p>This project is not affiliated with, endorsed by, or sponsored by DBeaver Corporation.</p>
@@ -126,6 +133,11 @@ def main() -> int:
 
     write_composite(args.site, versions)
     write_landing(args.site, versions, args.repo, args.owner)
+
+    compatibility_source = Path("compatibility.json")
+    if compatibility_source.exists():
+        shutil.copyfile(compatibility_source, args.site / "compatibility.json")
+
     return 0
 
 if __name__ == "__main__":

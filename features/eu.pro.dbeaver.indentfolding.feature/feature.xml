@@ -2,7 +2,7 @@
 <feature
       id="eu.pro.dbeaver.indentfolding.feature"
       label="%featureName"
-      version="1.1.2.qualifier"
+      version="1.2.0.qualifier"
       provider-name="%providerName">
 
    <description>%description</description>
@@ -13,10 +13,15 @@
       Apache License, Version 2.0
    </license>
 
-   <plugin
-         id="eu.pro.dbeaver.indentfolding"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+   <requires>
+      <!--
+         This feature is intentionally a selector, not an implementation container.
+         Eclipse p2 chooses the newest eu.pro.dbeaver.indentfolding bundle whose
+         OSGi Require-Bundle constraints are satisfiable by the installed DBeaver.
+      -->
+      <import
+            plugin="eu.pro.dbeaver.indentfolding"
+            version="1.0.0"
+            match="greaterOrEqual"/>
+   </requires>
 </feature>

@@ -1,6 +1,6 @@
 # DBeaver Indentation Folding
 
-A third-party Eclipse/DBeaver plug-in that adds indentation-based and explicit region folding to DBeaver SQL editors.
+A third-party Eclipse/DBeaver plug-in that adds indentation-based and explicit region folding to DBeaver SQL editors. The public p2 site uses an automatic compatibility selector so users do not need to choose an implementation version manually.
 
 ## Features
 
@@ -42,11 +42,13 @@ Update Site:
 
 `https://EU-PR0.github.io/dbeaver-indentation-folding/`
 
-Then select **DBeaver SQL Indentation Folding**, finish the wizard, and restart DBeaver.
+Then select **DBeaver SQL Indentation Folding (Automatic Compatibility)**, finish the wizard, and restart DBeaver. Eclipse p2 resolves the newest implementation whose DBeaver bundle requirements are satisfied by your installation.
 
 Existing installations can use:
 
 `Help -> Check for Updates`
+
+Starting with 1.2.0, the feature shown to users is a selector. Historical implementation versions stay in the composite repository for rollback and dependency resolution, but normal installation does not require choosing one manually.
 
 Settings are available at:
 
@@ -62,12 +64,14 @@ Available switches include:
 
 ## Compatibility
 
-The current release line is intentionally constrained to DBeaver bundle API versions verified for:
+The implementation bundle remains intentionally constrained by DBeaver OSGi bundle versions. The selector lets p2 choose the latest compatible implementation automatically. Current verification includes:
 
 - DBeaver Community 26.1.5
 - DBeaver Community 26.2.0
 - DBeaver Community 26.2.1
 - DBeaver Community 26.2.2
+
+See [`COMPATIBILITY.md`](COMPATIBILITY.md) for the implementation matrix and selector behavior.
 
 The CI build resolves against DBeaver's current public p2 repository. If DBeaver changes an internal API outside the allowed bundle ranges, CI is expected to fail until compatibility is reviewed and the ranges are intentionally updated.
 
@@ -86,6 +90,7 @@ The GitHub Pages site is a p2 **composite repository**:
     ├── 1.1.0/
     ├── 1.1.1/
     ├── 1.1.2/
+    ├── 1.2.0/
     └── ...
 ```
 
@@ -113,7 +118,7 @@ repository/target/repository/
 
 ## Release
 
-1. Update project versions (for example `1.1.3-SNAPSHOT` / `1.1.3.qualifier`).
+1. Update project versions (for example `1.2.1-SNAPSHOT` / `1.2.1.qualifier`).
 2. Set `RELEASE_VERSION` to the same semantic version.
 3. Commit and push to `main`. The release workflow builds and publishes that version automatically.
 

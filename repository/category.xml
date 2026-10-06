@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
+   <!--
+      User-facing selector feature. It does not embed an implementation bundle;
+      its dependency is resolved by p2 against all implementation versions in
+      the composite repository.
+   -->
    <feature id="eu.pro.dbeaver.indentfolding.feature" version="0.0.0">
       <category name="dbeaver-indent-folding"/>
    </feature>
 
-   <category-def name="dbeaver-indent-folding" label="DBeaver SQL Editor Extensions">
+   <!--
+      Include the implementation bundle in the release repository, but do not
+      assign it to the user-facing category. p2 uses it as a dependency candidate.
+   -->
+   <bundle id="eu.pro.dbeaver.indentfolding"/>
+
+   <category-def
+         name="dbeaver-indent-folding"
+         label="DBeaver SQL Editor Extensions — Automatic Compatibility">
       <description>
-         Independent third-party extensions for the DBeaver SQL editor.
+         Select DBeaver SQL Indentation Folding (Automatic Compatibility).
+         Eclipse p2 chooses the newest implementation compatible with your
+         installed DBeaver version.
       </description>
    </category-def>
 </site>

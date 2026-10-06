@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: DBeaver SQL Indentation Folding
+Bundle-Name: DBeaver SQL Indentation Folding Implementation (auto-selected)
 Bundle-SymbolicName: eu.pro.dbeaver.indentfolding;singleton:=true
-Bundle-Version: 1.1.2.qualifier
+Bundle-Version: 1.2.0.qualifier
 Bundle-Vendor: EU PRO
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Activator: eu.pro.dbeaver.indentfolding.IndentationFoldingPlugin

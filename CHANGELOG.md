@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.2.0
+
+- Introduced a user-facing **Automatic Compatibility** selector feature.
+- The selector feature no longer embeds one exact plug-in build; it requires `eu.pro.dbeaver.indentfolding >= 1.0.0` and lets Eclipse p2 resolve the newest implementation compatible with the DBeaver bundles installed in the application.
+- Kept the implementation bundle uncategorized in the release repository so normal `Install New Software` usage presents the selector instead of asking users to choose an implementation directly.
+- Renamed the implementation bundle to make direct/manual installation clearly identifiable as an internal auto-selected component.
+- Added `COMPATIBILITY.md` and machine-readable `compatibility.json` with the verified DBeaver/bundle matrix.
+- Added CI validation for the selector feature, hidden implementation bundle, compatibility metadata, and OSGi dependency constraints.
+- Updated the public p2 landing page to explain automatic compatibility resolution.
+- Kept the same feature ID so existing installations can update from pre-selector releases without reinstalling the extension.
+
 ## 1.1.2
 
 - Added verified compatibility with DBeaver Community 26.2.2 (released 2026-10-04).
