@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "selectionStrategy": "latest-compatible-osgi-bundle",
+  "selectorFeature": {
+    "id": "eu.pro.dbeaver.indentfolding.feature",
+    "sinceVersion": "1.2.0",
+    "displayName": "DBeaver SQL Indentation Folding (Automatic Compatibility)",
+    "implementationRequirement": {
+      "bundle": "eu.pro.dbeaver.indentfolding",
+      "minimumVersion": "1.0.0",
+      "match": "greaterOrEqual"
+    }
+  },
+  "implementations": [
+    {
+      "version": "1.0.1",
+      "dbeaver": [
+        "26.1.5",
+        "26.2.0"
+      ],
+      "model": "[2.0.45,2.0.47)",
+      "sqlEditor": "[1.0.185,1.0.187)"
+    },
+    {
+      "version": "1.0.2",
+      "dbeaver": [
+        "26.1.5",
+        "26.2.0",
+        "26.2.1"
+      ],
+      "model": "[2.0.45,2.0.48)",
+      "sqlEditor": "[1.0.185,1.0.188)"
+    },
+    {
+      "version": "1.1.0",
+      "dbeaver": [
+        "26.1.5",
+        "26.2.0",
+        "26.2.1"
+      ],
+      "model": "[2.0.45,2.0.48)",
+      "sqlEditor": "[1.0.185,1.0.188)"
+    },
+    {
+      "version": "1.1.1",
+      "dbeaver": [
+        "26.1.5",
+        "26.2.0",
+        "26.2.1"
+      ],
+      "model": "[2.0.45,2.0.48)",
+      "sqlEditor": "[1.0.185,1.0.188)"
+    },
+    {
+      "version": "1.1.2",
+      "dbeaver": [
+        "26.1.5",
+        "26.2.0",
+        "26.2.1",
+        "26.2.2"
+      ],
+      "model": "[2.0.45,2.0.49)",
+      "sqlEditor": "[1.0.185,1.0.189)"
+    },
+    {
+      "version": "1.2.0",
+      "dbeaver": [
+        "26.1.5",
+        "26.2.0",
+        "26.2.1",
+        "26.2.2"
+      ],
+      "model": "[2.0.45,2.0.49)",
+      "sqlEditor": "[1.0.185,1.0.189)"
+    }
+  ]
+}
