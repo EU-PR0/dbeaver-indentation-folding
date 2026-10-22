@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.1
+
+- Added verified compatibility with DBeaver Community 26.2.3 (published 2026-10-18).
+- Extended `org.jkiss.dbeaver.model` compatibility through 2.0.49.x.
+- Extended `org.jkiss.dbeaver.ui.editors.sql` compatibility through 1.0.189.x.
+- Verified that `SQLEditorAddIn`, `SQLSourceViewer`, `DBWorkbench`, and `DBPPreferenceStore` remain unchanged from DBeaver 26.2.2.
+- Re-verified the plug-in APIs used from the changed `SQLEditorBase`, including `getProjectionAnnotationModel()`, `getDocument()`, editor control access, and folding preference handling.
+- Verified that `org.jkiss.dbeaver.sql.editorAddIns` and `SQLEditor.Folding.enabled` remain available in DBeaver 26.2.3.
+- Automatic Compatibility selector now resolves 1.2.1 as the newest compatible implementation on DBeaver 26.2.3.
+
 ## 1.2.0
 
 - Introduced a user-facing **Automatic Compatibility** selector feature.

@@ -70,6 +70,7 @@ The implementation bundle remains intentionally constrained by DBeaver OSGi bund
 - DBeaver Community 26.2.0
 - DBeaver Community 26.2.1
 - DBeaver Community 26.2.2
+- DBeaver Community 26.2.3
 
 See [`COMPATIBILITY.md`](COMPATIBILITY.md) for the implementation matrix and selector behavior.
 
@@ -91,6 +92,7 @@ The GitHub Pages site is a p2 **composite repository**:
     ├── 1.1.1/
     ├── 1.1.2/
     ├── 1.2.0/
+    ├── 1.2.1/
     └── ...
 ```
 
@@ -118,7 +120,7 @@ repository/target/repository/
 
 ## Release
 
-1. Update project versions (for example `1.2.1-SNAPSHOT` / `1.2.1.qualifier`).
+1. Update project versions (for example `1.2.2-SNAPSHOT` / `1.2.2.qualifier`).
 2. Set `RELEASE_VERSION` to the same semantic version.
 3. Commit and push to `main`. The release workflow builds and publishes that version automatically.
 
